@@ -7,15 +7,27 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" /> -->
+
     <item
-        android:id="@+id/search"
+        android:id="@+id/empty_menu_item"
         android:orderInCategory="0"
         android:title="Basket"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@android:color/transparent"
+        android:enabled="false"
         app:showAsAction="always" />
+
     <item
-        android:id="@+id/view_basket"
-        android:orderInCategory="0"
+        android:id="@+id/action_search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="Search"
+        android:orderInCategory="50"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="collapseActionView|ifRoom"
+        />
+
+    <item
+        android:id="@+id/view_basket2"
+        android:orderInCategory="100"
         android:title="Basket"
         android:icon="@drawable/ic_basket2"
         app:showAsAction="always" />
