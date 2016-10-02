@@ -24,10 +24,10 @@ public class DefaultTextView extends TextView {
     }
 
     private void init() {
-        if (!isInEditMode()) {
-            Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/SofiaProRegular-webfont.ttf");
-            setTypeface(tf);
-        }
+        //if (!isInEditMode()) {
+        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/SofiaProRegular-webfont.ttf");
+        setTypeface(tf);
+        //}
     }
 
 }

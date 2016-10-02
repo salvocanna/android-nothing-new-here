@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.firebox.androidapp.R;
 import com.firebox.androidapp.entity.ProductBlock;
+import com.firebox.androidapp.util.SquareGridLayout;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -30,15 +31,14 @@ public class ProductBlockAdapter extends ArrayAdapter<ProductBlock> {
         // Get the data item for this position
         ProductBlock block = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
+
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.product_block1, parent, false);
             convertView.setPadding(8, 8, 8, 8);
         }
 
-        //convertView.setMinimumHeight(convertView.getWidth());
-
         // Lookup view for data population
-        //TextView name = (TextView) convertView.findViewById(R.id.name);
+        TextView name = (TextView) convertView.findViewById(R.id.name);
         //TextView imageurl = (TextView) convertView.findViewById(R.id.imageurl);
 
         ImageView image = (ImageView) convertView.findViewById(R.id.product_block_image);
@@ -57,7 +57,7 @@ public class ProductBlockAdapter extends ArrayAdapter<ProductBlock> {
                 });
 
         // Populate the data into the template view using the data object
-        //name.setText(block.name);
+        name.setText(block.name);
         //imageurl.setText(block.imageUrl);
         // Return the completed view to render on screen
         return convertView;

@@ -8,6 +8,7 @@ import android.widget.GridLayout;
  * Created by salvo on 02/10/16.
  */
 public class SquareGridLayout extends GridLayout {
+    public Boolean isDouble = false;
     public SquareGridLayout(Context context) {
         super(context);
     }

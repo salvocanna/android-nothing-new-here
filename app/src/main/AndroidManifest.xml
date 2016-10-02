@@ -21,7 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".WebViewActivity" />
-        <activity android:name=".ActivityTop50"></activity>
+        <activity android:name=".activity.ActivityTop50" />
+        <activity android:name=".activity.ActivityProduct"></activity>
     </application>
 
 </manifest>
