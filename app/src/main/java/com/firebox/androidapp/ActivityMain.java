@@ -46,7 +46,7 @@ public class ActivityMain extends AppCompatActivity
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(ActivityMain.this, ActivityWebView.class);
+                Intent myIntent = new Intent(ActivityMain.this, ActivityTop50.class);
                 //myIntent.putExtra("key", value); //Optional parameters
                 ActivityMain.this.startActivity(myIntent);
             }
