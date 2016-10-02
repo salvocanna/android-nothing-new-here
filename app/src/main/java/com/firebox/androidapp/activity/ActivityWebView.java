@@ -1,10 +1,12 @@
-package com.firebox.androidapp;
+package com.firebox.androidapp.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.firebox.androidapp.R;
 
 public class ActivityWebView extends AppCompatActivity {
 

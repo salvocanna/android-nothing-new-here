@@ -1,9 +1,10 @@
-package com.firebox.androidapp;
+package com.firebox.androidapp.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.GridView;
 
+import com.firebox.androidapp.R;
 import com.firebox.androidapp.adapter.ProductBlockAdapter;
 import com.firebox.androidapp.entity.ProductBlock;
 
