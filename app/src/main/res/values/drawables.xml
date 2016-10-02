@@ -7,4 +7,5 @@
     <item name="ic_menu_send" type="drawable">@android:drawable/ic_menu_send</item>
     <item name="ic_search" type="drawable">@android:drawable/ic_menu_search</item>
     <item name="ic_logo" type="drawable">@drawable/firebox</item>
+    <item name="ic_logo_padded" type="drawable">@drawable/firebox_padded</item>
 </resources>

@@ -8,13 +8,6 @@
         android:title="@string/action_settings"
         app:showAsAction="never" /> -->
 
-    <item
-        android:id="@+id/empty_menu_item"
-        android:orderInCategory="0"
-        android:title="Basket"
-        android:icon="@android:color/transparent"
-        android:enabled="false"
-        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_search"

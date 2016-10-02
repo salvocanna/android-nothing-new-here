@@ -18,5 +18,30 @@
         android:adjustViewBounds="true"
     />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <com.firebox.androidapp.util.StrongTextView
+            android:id="@+id/product_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            />
+
+        <com.firebox.androidapp.util.DefaultTextView
+            android:id="@+id/product_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            />
+
+        
+    </LinearLayout>
+
+
+
 
 </LinearLayout>
