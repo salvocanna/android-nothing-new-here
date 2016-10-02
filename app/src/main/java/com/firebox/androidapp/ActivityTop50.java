@@ -19,10 +19,12 @@ public class ActivityTop50 extends AppCompatActivity {
 
         ArrayList<ProductBlock> arrayOfUsers = new ArrayList<ProductBlock>();
 
-        arrayOfUsers.add(new ProductBlock("Monkey Picked Tea", "https://media.firebox.com/product/617/column_grid_3/monkey-picked-tea_20152.jpg"));
-        arrayOfUsers.add(new ProductBlock("Monkey Picked Tea", "https://media.firebox.com/product/617/column_grid_3/monkey-picked-tea_20152.jpg"));
+        for (int i = 0; i < 50; i++) {
+            arrayOfUsers.add(new ProductBlock(617, "Monkey Picked Tea", "https://media.firebox.com/product/617/column_grid_3/monkey-picked-tea_20152.jpg"));
+        }
+        //arrayOfUsers.add(new ProductBlock("Monkey Picked Tea", "https://media.firebox.com/product/617/column_grid_3/monkey-picked-tea_20152.jpg"));
         //arrayOfUsers.add(new ProductBlock("a", "b"));
-        arrayOfUsers.add(new ProductBlock("Monkey Picked Tea", "https://media.firebox.com/product/617/column_grid_3/monkey-picked-tea_20152.jpg"));
+        //arrayOfUsers.add(new ProductBlock("Monkey Picked Tea", "https://media.firebox.com/product/617/column_grid_3/monkey-picked-tea_20152.jpg"));
 
         ProductBlockAdapter adapter = new ProductBlockAdapter(this, arrayOfUsers);
 
