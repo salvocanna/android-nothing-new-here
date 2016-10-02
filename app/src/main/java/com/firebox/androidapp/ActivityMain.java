@@ -1,5 +1,6 @@
 package com.firebox.androidapp;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 import java.util.Locale;
 
@@ -39,6 +41,16 @@ public class ActivityMain extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        Button b = (Button) findViewById(R.id.test_button);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(ActivityMain.this, ActivityWebView.class);
+                //myIntent.putExtra("key", value); //Optional parameters
+                ActivityMain.this.startActivity(myIntent);
+            }
+        });
 
 
     }
