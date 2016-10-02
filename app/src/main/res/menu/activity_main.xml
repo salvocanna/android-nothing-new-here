@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
+
+    <!-- <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        app:showAsAction="never" />
+        app:showAsAction="never" /> -->
+    <item
+        android:id="@+id/search"
+        android:orderInCategory="0"
+        android:title="Basket"
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/view_basket"
+        android:orderInCategory="0"
+        android:title="Basket"
+        android:icon="@drawable/ic_basket2"
+        app:showAsAction="always" />
 </menu>
