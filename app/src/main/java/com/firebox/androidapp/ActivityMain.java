@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import com.firebox.androidapp.activity.ActivityProduct;
 import com.firebox.androidapp.activity.ActivityTop50;
 
 public class ActivityMain extends AppCompatActivity
@@ -42,8 +43,9 @@ public class ActivityMain extends AppCompatActivity
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(ActivityMain.this, ActivityTop50.class);
-                //myIntent.putExtra("key", value); //Optional parameters
+                //Intent myIntent = new Intent(ActivityMain.this, ActivityTop50.class);
+                Intent myIntent = new Intent(ActivityMain.this, ActivityProduct.class);
+                myIntent.putExtra("productId", 610);
                 ActivityMain.this.startActivity(myIntent);
             }
         });
