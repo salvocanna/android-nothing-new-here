@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.AttributeSet;
@@ -66,11 +67,6 @@ public class ActivityProduct extends AppCompatActivity {
             //Display an user friendly error message...
 
         }
-
-
-
-
-
     }
 
     private void onLoadedPart()
@@ -147,13 +143,22 @@ public class ActivityProduct extends AppCompatActivity {
             product = new FullProduct();
 
             try {
-                OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder()
-                        .url("https://www.firebox.com/product/info/".concat(productId.toString()))
-                        .build();
+                String preferencesProductInfoKey = "product-info-".concat(productId.toString());
+                String jsonData = PreferenceManager.
+                        getDefaultSharedPreferences(getApplicationContext()).getString(preferencesProductInfoKey,"");
 
-                Response responses = client.newCall(request).execute();
-                String jsonData = responses.body().string();
+                if (jsonData.length() < 1) {
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = new Request.Builder()
+                            .url("https://www.firebox.com/product/info/".concat(productId.toString()))
+                            .build();
+
+                    Response responses = client.newCall(request).execute();
+                    jsonData = responses.body().string();
+
+                    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                            .putString(preferencesProductInfoKey, jsonData).apply();
+                }
 
                 JSONObject productObject = new JSONObject(jsonData);
 
@@ -187,7 +192,12 @@ public class ActivityProduct extends AppCompatActivity {
                             public void onSuccess() {
                                 //
                                 loadedMainImage = true;
-                                onLoadedPart();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        onLoadedPart();
+                                    }
+                                });
                             }
                             @Override
                             public void onError() {
