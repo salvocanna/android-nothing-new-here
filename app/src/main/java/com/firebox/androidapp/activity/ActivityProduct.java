@@ -104,7 +104,7 @@ public class ActivityProduct extends AppCompatActivity {
                 setDimension(ll);
                 ll.addView(tick);
 
-                TextView tv = new TextView(this);
+                TextView tv = new DefaultTextView(this);
                 setDimension(tv);
                 tv.setText(feature);
                 tv.setTextColor(Color.BLACK);
