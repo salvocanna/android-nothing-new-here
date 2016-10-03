@@ -8,6 +8,8 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.Button;
 
+import com.firebox.androidapp.R;
+
 /**
  * Created by salvo on 02/10/16.
  */
@@ -42,6 +44,6 @@ public class BlackButton extends Button {
         setTextColor(Color.WHITE);
         setPadding(50, 20, 50, 20);
         setMinHeight(0);
-        
+        setBackgroundResource(R.drawable.black_button_rounded);
     }
 }

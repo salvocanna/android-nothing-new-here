@@ -7,10 +7,14 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebox.androidapp.R;
@@ -86,9 +90,66 @@ public class ActivityProduct extends AppCompatActivity {
             subtitle.setTextColor(Color.BLACK);
 
 
+            LinearLayout keyFeatures = (LinearLayout) findViewById(R.id.product_keyfeatures);
+
+
+
+            for (String feature: product.keyFeatures) {
+                ImageView tick = new ImageView(this);
+                setDimension(tick);
+                tick.setImageResource(R.drawable.ic_check_black_24dp);
+
+                LinearLayout ll = new LinearLayout(this);
+                setDimension(ll);
+                ll.addView(tick);
+
+                TextView tv = new TextView(this);
+                setDimension(tv);
+                tv.setText(feature);
+                tv.setTextColor(Color.BLACK);
+
+                float scale = getResources().getDisplayMetrics().density;
+                tv.setPadding((int) (10*scale + 0.5f), 0,0,0);
+
+                ll.addView(tv);
+
+                keyFeatures.addView(ll);
+
+            }
+
+
+                /*
+                <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_check_black_24dp" />
+                <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingLeft="5dp"
+                android:text="Hello"/>
+                </LinearLayout>*/
+
+
             return;
         }
         //Else still wait here..
+    }
+
+    private void setDimension(View v)
+    {
+        if (v != null) {
+            ViewGroup.LayoutParams params = v.getLayoutParams();
+            if (params != null) {
+                params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                v.setLayoutParams(params);
+            }
+        }
     }
 
     private class ProductInfoLoader extends AsyncTask<Void, Void, Void> {
@@ -122,10 +183,13 @@ public class ActivityProduct extends AppCompatActivity {
             product.keyFeatures.add("Feel like an eccentric Hannibal Lecter sort of character");
             product.keyFeatures.add("Better (and tastier) than spending months excavating one yourself");
 
-            onLoadedPart();
-
             //dismissLoadingDialog();
             return null;
+        }
+
+        protected void onPostExecute() {
+            //showDialog("Done!");
+            onLoadedPart();
         }
 
     }

@@ -10,41 +10,67 @@
     android:orientation="vertical"
     tools:context="com.firebox.androidapp.activity.ActivityProduct">
 
-    <ImageView
-        android:id="@+id/product_main_image"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitStart"
-        android:adjustViewBounds="true"
-    />
+        android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
-
-        <com.firebox.androidapp.util.StrongTextView
-            android:id="@+id/product_title"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="30dp"
-            />
+            android:orientation="vertical">
 
-        <com.firebox.androidapp.util.DefaultTextView
-            android:id="@+id/product_subtitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            />
+            <ImageView
+                android:id="@+id/product_main_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitStart"
+                android:adjustViewBounds="true"
+                />
 
-        <com.firebox.androidapp.util.BlackButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add to basket" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <com.firebox.androidapp.util.StrongTextView
+                    android:id="@+id/product_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="30dp"
+                    />
+
+                <com.firebox.androidapp.util.DefaultTextView
+                    android:id="@+id/product_subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    />
+
+                <com.firebox.androidapp.util.BlackButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Add to basket" />
 
 
+                <LinearLayout
+                    android:id="@+id/product_keyfeatures"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
 
 
 </LinearLayout>
