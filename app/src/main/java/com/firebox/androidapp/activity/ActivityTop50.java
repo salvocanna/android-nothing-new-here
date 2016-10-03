@@ -2,6 +2,7 @@ package com.firebox.androidapp.activity;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -70,13 +71,29 @@ public class ActivityTop50 extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
 
             try {
-                OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder()
-                        .url("https://www.firebox.com/product/summary-all")
-                        .build();
 
-                Response responses = client.newCall(request).execute();
-                String jsonData = responses.body().string();
+                /*
+        Getting the stored json:
+        JsonObject jsonObject = PreferenceManager.
+        getDefaultSharedPreferences(this).getString("theJson","");
+        */
+                String SharedPreferencesProductKey = "product-summary";
+                String jsonData = PreferenceManager.
+                        getDefaultSharedPreferences(getApplicationContext()).getString(SharedPreferencesProductKey, "");
+
+                if (jsonData.length() < 1) {
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = new Request.Builder()
+                            .url("https://www.firebox.com/product/summary-all")
+                            .build();
+
+                    Response responses = client.newCall(request).execute();
+                    jsonData = responses.body().string();
+
+                    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                            .putString(SharedPreferencesProductKey, jsonData).apply();
+                }
+
 
                 JSONArray productsList = new JSONArray(jsonData);
 

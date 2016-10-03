@@ -132,10 +132,6 @@ public class ActivityProduct extends AppCompatActivity {
     }
 
     private class ProductInfoLoader extends AsyncTask<Void, Void, Void> {
-        /*private Context context;
-        public ProductInfoLoader(Context c) {
-            context = c;
-        }*/
 
         @Override
         protected Void doInBackground(Void... Void) {
