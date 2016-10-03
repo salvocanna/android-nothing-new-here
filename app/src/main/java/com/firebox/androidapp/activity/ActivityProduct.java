@@ -19,19 +19,34 @@ import android.widget.Toast;
 
 import com.firebox.androidapp.R;
 import com.firebox.androidapp.entity.FullProduct;
+import com.firebox.androidapp.entity.ProductBlock;
 import com.firebox.androidapp.util.DefaultTextView;
 import com.firebox.androidapp.util.StrongTextView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class ActivityProduct extends AppCompatActivity {
-    private int productId;
+    private Integer productId;
     private ProgressBar pb;
 
     private FullProduct product;
 
     private Boolean loadedMainImage = false;
     private Boolean loadedInfo = false;
+    private Boolean viewLoaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,35 +67,23 @@ public class ActivityProduct extends AppCompatActivity {
 
         }
 
-        //.placeholder(R.drawable.profile_wall_picture)
-        //        .resize(0, holder.message_picture.getHeight()),
 
 
-        ImageView imageView = (ImageView) findViewById(R.id.product_main_image);
 
-        Picasso
-            .with(this)
-            .load("https://media.firebox.com/product/7789/column_grid_8/rainbow-rage_28474.jpg")
-            .placeholder(R.drawable.ic_logo)
-            .into(imageView, new Callback() {
-                @Override
-                public void onSuccess() {
-                    //
-                    loadedMainImage = true;
-                    onLoadedPart();
-                }
 
-                @Override
-                public void onError() {
-                    //
-                }
-            });
     }
 
     private void onLoadedPart()
     {
-        if (loadedMainImage && loadedInfo) {
-            Toast.makeText(this, "Loaded!", Toast.LENGTH_SHORT).show();
+        if (loadedMainImage && loadedInfo && !viewLoaded) {
+
+            if (product.images.size() > 0) {
+            ImageView imageView = (ImageView) findViewById(R.id.product_main_image);
+            Picasso
+                .with(this)
+                .load(product.images.get(0))
+                .into(imageView);
+            }
 
             StrongTextView title = ((StrongTextView) findViewById(R.id.product_title));
             title.setText(product.name);
@@ -91,8 +94,6 @@ public class ActivityProduct extends AppCompatActivity {
 
 
             LinearLayout keyFeatures = (LinearLayout) findViewById(R.id.product_keyfeatures);
-
-
 
             for (String feature: product.keyFeatures) {
                 ImageView tick = new ImageView(this);
@@ -116,26 +117,8 @@ public class ActivityProduct extends AppCompatActivity {
                 keyFeatures.addView(ll);
 
             }
+            viewLoaded = true;
 
-
-                /*
-                <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_check_black_24dp" />
-                <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingLeft="5dp"
-                android:text="Hello"/>
-                </LinearLayout>*/
-
-
-            return;
         }
         //Else still wait here..
     }
@@ -161,29 +144,67 @@ public class ActivityProduct extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... Void) {
 
+            product = new FullProduct();
+
             try {
-                //productId
-                Thread.sleep(0);
-            } catch (InterruptedException e) {
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder()
+                        .url("https://www.firebox.com/product/info/".concat(productId.toString()))
+                        .build();
+
+                Response responses = client.newCall(request).execute();
+                String jsonData = responses.body().string();
+
+                JSONObject productObject = new JSONObject(jsonData);
+
+                product.id  = productObject.getInt("id");
+                product.name = productObject.getString("name");
+                product.subtitle    = productObject.getString("tagline");
+                JSONArray JSONKeyFeatures = productObject.getJSONArray("keyFeatures");
+                JSONArray JSONImages = productObject.getJSONArray("images");
+
+                ArrayList<String> ArrayKeyFeatures = new ArrayList<>();
+                for (int i = 0; i < JSONKeyFeatures.length(); i++) {
+                    ArrayKeyFeatures.add(JSONKeyFeatures.getString(i));
+                }
+
+                ArrayList<String> ArrayImages = new ArrayList<>();
+                for (int i = 0; i < JSONImages.length(); i++) {
+                    ArrayImages.add("https:".concat(JSONImages.getJSONObject(i).getString("mainUrl")));
+                }
+
+                for (String feature: ArrayKeyFeatures) {
+                    product.keyFeatures.add(feature);
+                }
+
+                // Preload all the images!
+                for (String imageUrl: ArrayImages) {
+                    Picasso
+                        .with(getApplicationContext())
+                        .load(imageUrl)
+                        .fetch(new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                //
+                                loadedMainImage = true;
+                                onLoadedPart();
+                            }
+                            @Override
+                            public void onError() {
+                                //
+                            }
+                        });
+                    product.images.add(imageUrl);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
             loadedInfo = true;
 
-            product = new FullProduct();
-            product.id = 5398;
-            product.name = "Chocolate Skulls";
-            product.subtitle = "Scrumptious skullduggery";
-            product.images.add("https://media.firebox.com/product/5398/column_grid_8/chocolate-skulls_7567.jpg");
-            product.images.add("https://media.firebox.com/product/5398/extra1_column_grid_8/chocolate-skulls_7568.jpg");
-            product.images.add("https://media.firebox.com/product/5398/extra2_column_grid_8/chocolate-skulls_7569.jpg");
-            product.keyFeatures.add("Confectionery craniums moulded from an authentic human skull");
-            product.keyFeatures.add("Obtained by completely non-nefarious means – don’t ask");
-            product.keyFeatures.add("2.5kg of chocolatey (and presumably Belgian) human remains");
-            product.keyFeatures.add("Feel like an eccentric Hannibal Lecter sort of character");
-            product.keyFeatures.add("Better (and tastier) than spending months excavating one yourself");
-
-            //dismissLoadingDialog();
             return null;
         }
 

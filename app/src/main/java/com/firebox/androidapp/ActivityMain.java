@@ -43,8 +43,8 @@ public class ActivityMain extends AppCompatActivity
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent myIntent = new Intent(ActivityMain.this, ActivityTop50.class);
-                Intent myIntent = new Intent(ActivityMain.this, ActivityProduct.class);
+                Intent myIntent = new Intent(ActivityMain.this, ActivityTop50.class);
+                //Intent myIntent = new Intent(ActivityMain.this, ActivityProduct.class);
                 myIntent.putExtra("productId", 610);
                 ActivityMain.this.startActivity(myIntent);
             }
