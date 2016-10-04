@@ -24,7 +24,7 @@ public class ActivityMain extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_default);
-        toolbar.setLogo(R.drawable.ic_logo_padded);
+        //toolbar.setLogo(R.drawable.ic_logo_padded);
         //toolbar.setLogo(R.drawable.ic_launcher);
         setSupportActionBar(toolbar);
 
