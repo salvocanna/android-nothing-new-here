@@ -37,15 +37,6 @@ public class ActivityTop50 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top50);
 
-
-        /*
-        PreferenceManager.getDefaultSharedPreferences(context).edit()
-        .putString("theJson",jsonObject.toString()).apply();
-        Getting the stored json:
-        JsonObject jsonObject = PreferenceManager.
-        getDefaultSharedPreferences(this).getString("theJson","");
-        */
-
         new ProductGetter().execute();
 
         GridView gridview = (GridView) findViewById(R.id.product_block_top50_gridview);
@@ -53,9 +44,6 @@ public class ActivityTop50 extends AppCompatActivity {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-            /*    Toast.makeText(getApplicationContext(), "" + position,
-                        Toast.LENGTH_SHORT).show();
-*/
 
                 Intent myIntent = new Intent(ActivityTop50.this, ActivityProduct.class);
                 myIntent.putExtra("productId", productArray.get(position).id);
@@ -71,12 +59,6 @@ public class ActivityTop50 extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
 
             try {
-
-                /*
-        Getting the stored json:
-        JsonObject jsonObject = PreferenceManager.
-        getDefaultSharedPreferences(this).getString("theJson","");
-        */
                 String SharedPreferencesProductKey = "product-summary";
                 String jsonData = PreferenceManager.
                         getDefaultSharedPreferences(getApplicationContext()).getString(SharedPreferencesProductKey, "");
