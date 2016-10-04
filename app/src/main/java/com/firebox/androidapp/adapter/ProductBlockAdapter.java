@@ -34,6 +34,7 @@ public class ProductBlockAdapter extends ArrayAdapter<ProductBlock> {
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.product_block1, parent, false);
+            convertView.setPadding(14,14,14,14);
         }
 
         // Lookup view for data population
