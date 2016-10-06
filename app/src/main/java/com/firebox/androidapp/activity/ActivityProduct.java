@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebox.androidapp.BaseActivity;
 import com.firebox.androidapp.R;
 import com.firebox.androidapp.entity.FullProduct;
 import com.firebox.androidapp.entity.ProductBlock;
@@ -39,7 +40,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class ActivityProduct extends AppCompatActivity {
+public class ActivityProduct extends BaseActivity {
     private Integer productId;
     private ProgressBar pb;
 
@@ -67,6 +68,8 @@ public class ActivityProduct extends AppCompatActivity {
             //Display an user friendly error message...
 
         }
+
+        this.initDrawer();
     }
 
     private void onLoadedPart()
