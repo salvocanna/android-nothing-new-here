@@ -9,7 +9,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".ActivityMain"
             android:label="@string/app_name"
@@ -20,9 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WebViewActivity" />
+        <!--<activity android:name=".activity.ActivityWebView" />-->
         <activity android:name=".activity.ActivityTop50" />
-        <activity android:name=".activity.ActivityProduct"></activity>
+        <activity android:name=".activity.ActivityProduct" />
     </application>
 
 </manifest>
