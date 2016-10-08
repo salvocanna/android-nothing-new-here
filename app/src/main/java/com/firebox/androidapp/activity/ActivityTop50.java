@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.firebox.androidapp.R;
 import com.firebox.androidapp.adapter.ProductBlockAdapter;
 import com.firebox.androidapp.entity.ProductBlock;
+import com.firebox.androidapp.helper.ProductHelper;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -31,13 +32,27 @@ import okhttp3.Response;
 public class ActivityTop50 extends AppCompatActivity {
 
     ArrayList<ProductBlock> productArray = new ArrayList<ProductBlock>();
+    ProductHelper ph = new ProductHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top50);
 
-        new ProductGetter().execute();
+        ProductHelper ph = new ProductHelper(this);
+
+        ProductHelper.ProductGetter pg = ph.new ProductGetter(this, null, ProductHelper.SORT_BY_CHART_ASC) {
+            @Override
+            public void receiveData(ArrayList<ProductBlock> productBlocks) {
+                productArray = productBlocks;
+                ProductBlockAdapter adapter = new ProductBlockAdapter(getApplicationContext(), productArray);
+                GridView gridview = (GridView) findViewById(R.id.product_block_top50_gridview);
+                gridview.setAdapter(adapter);
+            }
+        };
+
+        pg.execute();
+
 
         GridView gridview = (GridView) findViewById(R.id.product_block_top50_gridview);
 
@@ -53,84 +68,4 @@ public class ActivityTop50 extends AppCompatActivity {
 
     }
 
-    class ProductGetter extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-
-            try {
-                String SharedPreferencesProductKey = "product-summary";
-                String jsonData = PreferenceManager.
-                        getDefaultSharedPreferences(getApplicationContext()).getString(SharedPreferencesProductKey, "");
-
-                if (jsonData.length() < 1) {
-                    OkHttpClient client = new OkHttpClient();
-                    Request request = new Request.Builder()
-                            .url("https://www.firebox.com/product/summary-all")
-                            .build();
-
-                    Response responses = client.newCall(request).execute();
-                    jsonData = responses.body().string();
-
-                    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                            .putString(SharedPreferencesProductKey, jsonData).apply();
-                }
-
-
-                JSONArray productsList = new JSONArray(jsonData);
-
-                ArrayList<ProductBlock> tmpProductList = new ArrayList<ProductBlock>();
-
-                for (int i = 0; i < productsList.length(); i++) {
-                    JSONObject productObject = productsList.getJSONObject(i);
-
-                    Integer chartPosition = productObject.optInt("chartPosition", 9999);
-                    Integer productId = productObject.getInt("id");
-                    String imageUrl = "https:".concat(productObject.getString("image"));
-                    tmpProductList.add(new ProductBlock(
-                            productId,
-                            productObject.getString("name"),
-                            imageUrl,
-                            chartPosition));
-
-                    if (chartPosition < 50) {
-                        Picasso
-                            .with(getApplicationContext())
-                            .load(imageUrl)
-                            .fetch();
-                    }
-                }
-
-                Collections.sort(tmpProductList, new Comparator<ProductBlock>() {
-                    @Override
-                    public int compare(ProductBlock o1, ProductBlock o2) {
-                        if (o1.chartPosition < o2.chartPosition) {
-                            return -1;
-                        } else if (o1.chartPosition > o2.chartPosition) {
-                            return 1;
-                        }
-                        return 0;
-                    }
-                });
-                productArray = tmpProductList;
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void voids)
-        {
-            ProductBlockAdapter adapter = new ProductBlockAdapter(getApplicationContext(), productArray);
-            GridView gridview = (GridView) findViewById(R.id.product_block_top50_gridview);
-            gridview.setAdapter(adapter);
-        }
-
-
-    }
 }
