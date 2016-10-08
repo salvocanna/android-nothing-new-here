@@ -13,8 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import com.firebox.androidapp.activity.ActivityCategory;
 import com.firebox.androidapp.activity.ActivityProduct;
-import com.firebox.androidapp.activity.ActivityTop50;
 
 public class ActivityMain extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,7 +28,7 @@ public class ActivityMain extends BaseActivity
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(ActivityMain.this, ActivityTop50.class);
+                Intent myIntent = new Intent(ActivityMain.this, ActivityCategory.class);
                 ActivityMain.this.startActivity(myIntent);
             }
         });

@@ -3,6 +3,8 @@ package com.firebox.androidapp;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,19 +17,33 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebox.androidapp.activity.ActivityTop50;
+import com.firebox.androidapp.activity.ActivityCategory;
+import com.firebox.androidapp.activity.ActivitySearchable;
+
 
 public class BaseActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener {
+        implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener, SearchView.OnSuggestionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //<item name="android:statusBarColor">@color/navigationBarColor</item>
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(getResources().getColor(R.color.navigationBarColor, null));
+            window.setNavigationBarColor(getResources().getColor(R.color.navigationBarColor, null));
+        }
+
         //setContentView(R.layout.activity_main);
 
     }
@@ -50,6 +66,31 @@ public class BaseActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+
+
+
+        setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
+
+        Intent intent = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            Toast.makeText(this, "Searched:: ".concat(query), Toast.LENGTH_SHORT).show();
+        }
+
+
+
+        /*Intent intent = getIntent();
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction()))
+        {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            //SearchManager.QUERY
+            Intent myIntent = new Intent(BaseActivity.this, ActivitySearchable.class);
+            myIntent.putExtra(SearchManager.QUERY, query);
+            BaseActivity.this.startActivity(myIntent);
+            //doMySearch(query);
+        }*/
 
     }
     @Override
@@ -83,6 +124,8 @@ public class BaseActivity extends AppCompatActivity
             //searchView.setOnCloseListener(...);
 
             searchView.setSearchableInfo(searchManager.getSearchableInfo(BaseActivity.this.getComponentName()));
+
+            searchView.setOnSuggestionListener(this);
         }
         return super.onCreateOptionsMenu(menu);
     }
@@ -109,20 +152,29 @@ public class BaseActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        Intent categoryIntent = new Intent(BaseActivity.this, ActivityCategory.class);
+
+
+
+        if (id == R.id.category_top50) {
             // Handle the camera action
-            Toast.makeText(getApplicationContext(), "Clicked camera", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_gallery) {
-            Toast.makeText(getApplicationContext(), "Clicked gallery", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_slideshow) {
+            //Toast.makeText(getApplicationContext(), "Clicked camera", Toast.LENGTH_SHORT).show();
+            categoryIntent.putExtra(ActivityCategory.TYPE, ActivityCategory.TOP50);
+        } else if (id == R.id.category_new) {
+            categoryIntent.putExtra(ActivityCategory.TYPE, ActivityCategory.NEW);
+        } else if (id == R.id.gift_for_him) {
+            categoryIntent.putExtra(ActivityCategory.TYPE, ActivityCategory.TAG);
+            categoryIntent.putExtra(ActivityCategory.TAG_ID, 9);
+        } else if (id == R.id.gift_for_her) {
+            categoryIntent.putExtra(ActivityCategory.TYPE, ActivityCategory.TAG);
+            categoryIntent.putExtra(ActivityCategory.TAG_ID, 10);
+        }/* else if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.nav_manage) {
-
+        //} else if (id == R.id.nav_manage) {
         } else if (id == R.id.nav_share) {
-
         } else if (id == R.id.nav_send) {
-
-        }
+        }*/
+        BaseActivity.this.startActivity(categoryIntent);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -152,4 +204,13 @@ public class BaseActivity extends AppCompatActivity
         return false;
     }
 
+    @Override
+    public boolean onSuggestionSelect(int position) {
+        return false;
+    }
+
+    @Override
+    public boolean onSuggestionClick(int position) {
+        return false;
+    }
 }

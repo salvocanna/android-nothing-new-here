@@ -19,11 +19,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <!-- <activity android:name=".activity.ActivityWebView" /> -->
-        <activity android:name=".activity.ActivityTop50" />
-        <activity android:name=".activity.ActivityProduct" />
-        <activity android:name=".activity.ActivitySearchable">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -31,6 +26,12 @@
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
+        </activity>
+        <!-- <activity android:name=".activity.ActivityWebView" /> -->
+        <activity android:name=".activity.ActivityCategory" />
+        <activity android:name=".activity.ActivityProduct" />
+        <activity android:name=".activity.ActivitySearchable">
+
         </activity>
     </application>
 

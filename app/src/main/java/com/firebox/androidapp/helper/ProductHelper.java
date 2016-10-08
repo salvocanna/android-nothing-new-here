@@ -35,7 +35,8 @@ public class ProductHelper  {
     Context context;
 
     public static final Integer SORT_BY_CHART_ASC = 1;
-    public static final Integer SORT_BY_PRICE_ASC = 2;
+    public static final Integer SORT_BY_NEW_ASC   = 2;
+    public static final Integer SORT_BY_PRICE_ASC = 3;
 
 
     public ProductHelper(Context c) {
@@ -51,10 +52,11 @@ public class ProductHelper  {
 
         //Runnable callback;
         Context context;
-        ArrayList<Integer> tagFiltering;
+        //ArrayList<Integer> tagFiltering;
+        Integer tagFiltering;
         Integer sortBy;
 
-        public ProductGetter(Context c, ArrayList<Integer> tagFiltering, Integer sortBy)
+        public ProductGetter(Context c, Integer tagFiltering, Integer sortBy)
         {
             this.context = c;
             this.tagFiltering = tagFiltering;
@@ -96,12 +98,15 @@ public class ProductHelper  {
                     Integer chartPosition = productObject.optInt("chartPosition", 9999);
 
                     Integer productId = productObject.getInt("id");
+                    Integer birthday = productObject.getInt("liveOnSiteToBuyAt");
+
                     String imageUrl = "https:".concat(productObject.getString("image"));
                     tmpProductList.add(new ProductBlock(
                             productId,
                             productObject.getString("name"),
                             imageUrl,
-                            chartPosition));
+                            chartPosition,
+                            birthday));
                 }
 
 
@@ -116,6 +121,8 @@ public class ProductHelper  {
                                 return 1;
                             }
                             return 0;
+                        } else if (sortBy.equals(SORT_BY_NEW_ASC)) {
+                            return o1.birthday < o2.birthday ? 1 : -1;
                         }
                         return 0;
                     }

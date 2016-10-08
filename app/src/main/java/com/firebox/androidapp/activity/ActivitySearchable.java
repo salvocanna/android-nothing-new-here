@@ -18,7 +18,7 @@ public class ActivitySearchable extends AppCompatActivity {
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            Toast.makeText(this, "Searched ".concat(query), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Searched:: ".concat(query), Toast.LENGTH_SHORT).show();
         }
 
     }

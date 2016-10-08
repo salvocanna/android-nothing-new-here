@@ -1,27 +1,20 @@
 package com.firebox.androidapp.activity;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebox.androidapp.BaseActivity;
 import com.firebox.androidapp.R;
 import com.firebox.androidapp.entity.FullProduct;
-import com.firebox.androidapp.entity.ProductBlock;
 import com.firebox.androidapp.util.DefaultTextView;
 import com.firebox.androidapp.util.StrongTextView;
 import com.squareup.picasso.Callback;
@@ -33,8 +26,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
