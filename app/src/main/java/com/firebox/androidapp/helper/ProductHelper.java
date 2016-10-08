@@ -14,6 +14,7 @@ import com.firebox.androidapp.R;
 import com.firebox.androidapp.activity.ActivityProduct;
 import com.firebox.androidapp.adapter.ProductBlockAdapter;
 import com.firebox.androidapp.entity.ProductBlock;
+import com.firebox.androidapp.util.ExpirableSharedPrederences;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -70,10 +71,10 @@ public class ProductHelper  {
             try {
 
                 String SharedPreferencesProductKey = "product-summary";
-                String jsonData = PreferenceManager.
-                        getDefaultSharedPreferences(context).getString(SharedPreferencesProductKey, "");
 
-                if (jsonData.length() < 1) {
+                String jsonData = ExpirableSharedPrederences.getInstance(context).get(SharedPreferencesProductKey);
+
+                if (jsonData == null) {
                     OkHttpClient client = new OkHttpClient();
                     Request request = new Request.Builder()
                             .url("https://www.firebox.com/product/summary-all")
@@ -82,8 +83,7 @@ public class ProductHelper  {
                     Response responses = client.newCall(request).execute();
                     jsonData = responses.body().string();
 
-                    PreferenceManager.getDefaultSharedPreferences(context).edit()
-                            .putString(SharedPreferencesProductKey, jsonData).apply();
+                    ExpirableSharedPrederences.getInstance(context).set(SharedPreferencesProductKey, jsonData, 60 * 5);
                 }
 
 
