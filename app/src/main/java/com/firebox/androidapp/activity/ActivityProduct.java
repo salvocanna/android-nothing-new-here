@@ -48,11 +48,9 @@ public class ActivityProduct extends BaseActivity {
 
         Intent myIntent = getIntent(); // gets the previously created intent
         productId = myIntent.getIntExtra("productId", -1);
-        //pb = (ProgressBar) findViewById(R.id.product_spinner);
 
         if (productId > 0) {
             //Display a spinner...
-            //pb.setVisibility(View.VISIBLE);
             ProductInfoLoader pil = new ProductInfoLoader();
             pil.execute();
         } else {
