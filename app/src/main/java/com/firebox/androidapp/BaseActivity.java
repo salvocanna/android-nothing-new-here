@@ -39,8 +39,11 @@ public class BaseActivity extends AppCompatActivity
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(getResources().getColor(R.color.navigationBarColor, null));
+            //window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            //window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            //window.setStatusBarColor(getResources().getColor(R.color.navigationBarColor, null));
+            window.setStatusBarColor(Color.TRANSPARENT);
             window.setNavigationBarColor(getResources().getColor(R.color.navigationBarColor, null));
         }
 

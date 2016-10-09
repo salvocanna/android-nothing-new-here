@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <item android:title="My account">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_user"
+                android:title="Login" />
+        </menu>
+    </item>
+
+    <group>
 
         <item
             android:id="@+id/category_new"
+            android:icon="@drawable/ic_flame"
             android:title="New stuff" />
         <item
             android:id="@+id/category_top50"
-            android:title="Top 50" />
+            android:icon="@drawable/ic_prize"
+            android:title="Top 50"
+            />
         <item
             android:id="@+id/gift_for_him"
+            android:icon="@drawable/ic_man"
             android:title="Gifts for him" />
         <item
             android:id="@+id/gift_for_her"
+            android:icon="@drawable/ic_woman"
             android:title="Gifts for her" />
 
     </group>
