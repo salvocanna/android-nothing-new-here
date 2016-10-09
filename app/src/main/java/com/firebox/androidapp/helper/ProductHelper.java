@@ -101,7 +101,7 @@ public class ProductHelper  {
 
                 String SharedPreferencesProductKey = "product-summary";
 
-                String jsonData = ExpirableSharedPrederences.getInstance(context).get(SharedPreferencesProductKey);
+                String jsonData = ExpirableSharedPrederences.getInstance(context).getString(SharedPreferencesProductKey);
 
                 if (jsonData == null) {
                     OkHttpClient client = new OkHttpClient();
@@ -112,7 +112,7 @@ public class ProductHelper  {
                     Response responses = client.newCall(request).execute();
                     jsonData = responses.body().string();
 
-                    ExpirableSharedPrederences.getInstance(context).set(SharedPreferencesProductKey, jsonData, 60 * 5);
+                    ExpirableSharedPrederences.getInstance(context).setString(SharedPreferencesProductKey, jsonData, 60 * 5);
                 }
 
 

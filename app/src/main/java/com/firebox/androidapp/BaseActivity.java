@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.firebox.androidapp.activity.ActivityCategory;
 import com.firebox.androidapp.activity.ActivityLogin;
 import com.firebox.androidapp.activity.ActivitySearchable;
+import com.firebox.androidapp.helper.LoginHelper;
 
 
 public class BaseActivity extends AppCompatActivity
@@ -71,13 +72,25 @@ public class BaseActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-
         setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             Toast.makeText(this, "Searched:: ".concat(query), Toast.LENGTH_SHORT).show();
+        }
+
+        LoginHelper lh = LoginHelper.getInstance(this);
+        if (lh.isUserLoggedIn()) {
+
+            View header = navigationView.getHeaderView(0);
+            if (header != null) {
+                TextView accountNameTV = (TextView) header.findViewById(R.id.header_account_name);
+                if (accountNameTV != null) {
+                    accountNameTV.setText(lh.getLoginEmail());
+                    accountNameTV.setVisibility(View.VISIBLE);
+                }
+            }
         }
 
 
