@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebox.androidapp.activity.ActivityCategory;
+import com.firebox.androidapp.activity.ActivityLogin;
 import com.firebox.androidapp.activity.ActivitySearchable;
 
 
@@ -68,8 +69,6 @@ public class BaseActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
 
 
 
@@ -157,8 +156,6 @@ public class BaseActivity extends AppCompatActivity
 
         Intent categoryIntent = new Intent(BaseActivity.this, ActivityCategory.class);
 
-
-
         if (id == R.id.category_top50) {
             // Handle the camera action
             //Toast.makeText(getApplicationContext(), "Clicked camera", Toast.LENGTH_SHORT).show();
@@ -171,6 +168,9 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.gift_for_her) {
             categoryIntent.putExtra(ActivityCategory.TYPE, ActivityCategory.TAG);
             categoryIntent.putExtra(ActivityCategory.TAG_ID, 10);
+        } else if (id == R.id.login) {
+            categoryIntent = new Intent(BaseActivity.this, ActivityLogin.class);
+
         }
 
         BaseActivity.this.startActivity(categoryIntent);

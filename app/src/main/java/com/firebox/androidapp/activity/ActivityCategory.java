@@ -20,7 +20,7 @@ import com.firebox.androidapp.R;
 import com.firebox.androidapp.adapter.ProductBlockAdapter;
 import com.firebox.androidapp.entity.ProductBlock;
 import com.firebox.androidapp.helper.ProductHelper;
-import com.firebox.androidapp.util.ExpandedGridView;
+
 import com.firebox.androidapp.util.HeaderGridView;
 import com.firebox.androidapp.util.StrongTextView;
 

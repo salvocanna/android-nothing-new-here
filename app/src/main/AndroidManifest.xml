@@ -32,7 +32,9 @@
         <activity android:name=".activity.ActivityCategory" />
         <activity android:name=".activity.ActivityProduct" />
         <activity android:name=".activity.ActivitySearchable" />
-        
+        <activity
+            android:name=".activity.ActivityLogin"
+            android:label="@string/title_activity_activity_login" />
     </application>
 
 </manifest>
