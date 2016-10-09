@@ -26,24 +26,56 @@ public class ExpirableSharedPrederences {
         return mInstance;
     }
 
-    public void set(String key, String value)
+    public void setString(String key, String value)
     {
         sp.edit().putString(key, value).putLong(getTTLKey(key), 0).apply();
     }
 
-    public void set(String key, String value, Integer ttl)
+    public void setBoolean(String key, Boolean value)
+    {
+        sp.edit().putBoolean(key, value).putLong(getTTLKey(key), 0).apply();
+    }
+
+    public void setString(String key, String value, Integer ttl)
     {
         sp.edit().putString(key, value).putLong(getTTLKey(key), (ttl+getCurrentTime())).apply();
     }
 
-    public String get(String key)
+    public void setBoolean(String key, Boolean value, Integer ttl)
     {
-        String data = sp.getString(key, null);
+        sp.edit().putBoolean(key, value).putLong(getTTLKey(key), (ttl+getCurrentTime())).apply();
+    }
 
-        if (data != null) {
+    public String getString(String key)
+    {
+        String data = null;
+        if (sp.contains(key)) {
+            data = sp.getString(key, null);
+
             long ttl = sp.getLong(getTTLKey(key), -1);
             if (ttl != 0) {
                 if (ttl < getCurrentTime()) {
+
+                    //delete that value from shared preferences
+                    sp.edit().remove(key).remove(getTTLKey(key)).apply();
+                    data = null;
+                }
+            }
+
+        }
+        return data;
+    }
+
+    public Boolean getBoolean(String key)
+    {
+        Boolean data = null;
+        if (sp.contains(key)) {
+            data = sp.getBoolean(key, false);
+
+            long ttl = sp.getLong(getTTLKey(key), -1);
+            if (ttl != 0) {
+                if (ttl < getCurrentTime()) {
+
                     //delete that value from shared preferences
                     sp.edit().remove(key).remove(getTTLKey(key)).apply();
                     data = null;
