@@ -42,14 +42,9 @@ public class ProductHelper  {
 
     public ProductHelper(Context c) {
         this.context = c;
-
     }
 
-    public interface CallbackReceiver {
-        public void receiveData(ArrayList<ProductBlock> productBlocks);
-    }
-
-    public abstract class ProductGetter extends AsyncTask<Void, Void, Void> implements CallbackReceiver {
+    public abstract class ProductGetter extends AsyncTask<Void, Void, Void> {
 
         //Runnable callback;
         Context context;
@@ -64,6 +59,28 @@ public class ProductHelper  {
             this.sortBy = sortBy;
         }
 
+
+        private  ArrayList<ProductBlock> sortProductBlock(ArrayList<ProductBlock> block)
+        {
+            Collections.sort(block, new Comparator<ProductBlock>() {
+                @Override
+                public int compare(ProductBlock o1, ProductBlock o2) {
+                    if (sortBy.equals(ProductHelper.SORT_BY_CHART_ASC)) {
+                        if (o1.chartPosition < o2.chartPosition) {
+                            return -1;
+                        } else if (o1.chartPosition > o2.chartPosition) {
+                            return 1;
+                        }
+                        return 0;
+                    } else if (sortBy.equals(SORT_BY_NEW_ASC)) {
+                        return o1.birthday < o2.birthday ? 1 : -1;
+                    }
+                    return 0;
+                }
+            });
+
+            return block;
+        }
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -94,7 +111,7 @@ public class ProductHelper  {
                 for (int i = 0; i < productsList.length(); i++) {
                     JSONObject productObject = productsList.getJSONObject(i);
 
-                    //This 9999 is one of the most stupid things I've ever done.
+                    //This 9999 is one of the most stupid thing I've ever done.
                     Integer chartPosition = productObject.optInt("chartPosition", 9999);
 
                     Integer productId = productObject.getInt("id");
@@ -109,25 +126,7 @@ public class ProductHelper  {
                             birthday));
                 }
 
-
-
-                Collections.sort(tmpProductList, new Comparator<ProductBlock>() {
-                    @Override
-                    public int compare(ProductBlock o1, ProductBlock o2) {
-                        if (sortBy.equals(ProductHelper.SORT_BY_CHART_ASC)) {
-                            if (o1.chartPosition < o2.chartPosition) {
-                                return -1;
-                            } else if (o1.chartPosition > o2.chartPosition) {
-                                return 1;
-                            }
-                            return 0;
-                        } else if (sortBy.equals(SORT_BY_NEW_ASC)) {
-                            return o1.birthday < o2.birthday ? 1 : -1;
-                        }
-                        return 0;
-                    }
-                });
-                productArray = tmpProductList;
+                productArray = sortProductBlock(tmpProductList);
 
             } catch (JSONException | IOException e) {
                 e.printStackTrace();
@@ -141,13 +140,8 @@ public class ProductHelper  {
         @Override
         protected void onPostExecute(Void voids)
         {
-            //ProductBlockAdapter adapter = new ProductBlockAdapter(getApplicationContext(), productArray);
-            //GridView gridview = (GridView) findViewById(R.id.product_block_top50_gridview);
-            //gridview.setAdapter(adapter);
-
             receiveData(productArray);
         }
-
 
     }
 }
