@@ -29,7 +29,7 @@ public class ActivityCategory extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_top50);
+        setContentView(R.layout.activity_category);
 
         ProductHelper ph = new ProductHelper(this);
 

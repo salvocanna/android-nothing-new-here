@@ -46,9 +46,7 @@ public class ProductHelper  {
 
     public abstract class ProductGetter extends AsyncTask<Void, Void, Void> {
 
-        //Runnable callback;
         Context context;
-        //ArrayList<Integer> tagFiltering;
         Integer tagFiltering;
         Integer sortBy;
 
