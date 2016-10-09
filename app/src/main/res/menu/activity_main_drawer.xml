@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="My account">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_user"
-                android:title="Login" />
-        </menu>
-    </item>
 
     <group>
-
         <item
             android:id="@+id/category_new"
             android:icon="@drawable/ic_flame"
@@ -31,6 +22,14 @@
             android:title="Gifts for her" />
 
     </group>
+    <item android:title="My account">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_user"
+                android:title="Login" />
+        </menu>
+    </item>
 
     <!--<item android:title="Communicate">
         <menu>
