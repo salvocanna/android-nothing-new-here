@@ -82,6 +82,20 @@ public class ProductHelper  {
             return block;
         }
 
+        private ArrayList<ProductBlock> filterProductBlock(ArrayList<ProductBlock> blocks)
+        {
+            if (tagFiltering != null) {
+                ArrayList<ProductBlock> filtered = new ArrayList<ProductBlock>();
+                for (ProductBlock block: blocks) {
+                    if (block.tags.indexOf(tagFiltering) > -1) {
+                        filtered.add(block);
+                    }
+                }
+                return filtered;
+            }
+            return blocks;
+        }
+
         @Override
         protected Void doInBackground(Void... voids) {
 
@@ -117,14 +131,23 @@ public class ProductHelper  {
                     Integer productId = productObject.getInt("id");
                     Integer birthday = productObject.getInt("liveOnSiteToBuyAt");
 
+                    ArrayList<Integer> tags = new ArrayList<Integer>();
+
+                    for (int o = 0; o < productObject.getJSONArray("tags").length(); o++) {
+                        tags.add(productObject.getJSONArray("tags").getInt(o));
+                    }
+
                     String imageUrl = "https:".concat(productObject.getString("image"));
                     tmpProductList.add(new ProductBlock(
                             productId,
                             productObject.getString("name"),
                             imageUrl,
                             chartPosition,
-                            birthday));
+                            birthday,
+                            tags));
                 }
+
+                tmpProductList = filterProductBlock(tmpProductList);
 
                 productArray = sortProductBlock(tmpProductList);
 
