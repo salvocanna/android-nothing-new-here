@@ -66,6 +66,18 @@ tools:openDrawer="start">
                             android:textSize="20dp"
                             />
 
+                        <LinearLayout
+                            android:id="@+id/selected_sku"
+                            android:layout_width="match_parent"
+                            android:background="@drawable/sku_selected_box"
+                            android:layout_height="wrap_content" />
+
+                        <com.firebox.androidapp.util.ExpandedListView
+                            android:id="@+id/sku_list"
+                            android:layout_width="match_parent"
+                            android:background="@drawable/sku_selected_box"
+                            android:layout_height="wrap_content" />
+
                         <com.firebox.androidapp.util.BlackButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -84,17 +96,7 @@ tools:openDrawer="start">
 
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:id="@+id/selected_sku"
-                            android:layout_width="match_parent"
-                            android:background="@drawable/sku_selected_box"
-                            android:layout_height="wrap_content" />
 
-                        <com.firebox.androidapp.util.ExpandedListView
-                            android:id="@+id/sku_list"
-                            android:layout_width="match_parent"
-                            android:background="@drawable/sku_selected_box"
-                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
 

@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -109,10 +110,48 @@ public class ActivityProduct extends BaseActivity {
 
             }
 
-            ListView skuListView = (ListView) findViewById(R.id.sku_list);
+            final ListView skuListView = (ListView) findViewById(R.id.sku_list);
+            final LinearLayout llSelectedSku = (LinearLayout) findViewById(R.id.selected_sku);
 
-            SkuListAdapter sla = new SkuListAdapter(this, product.skus);
-            skuListView.setAdapter(sla);
+            LinearLayout slis = (LinearLayout) getLayoutInflater().inflate(R.layout.sku_list_item_selected, null);
+            llSelectedSku.addView(slis);
+
+            DefaultTextView skuName = (DefaultTextView) llSelectedSku.findViewById(R.id.sku_name);
+            if (product.skus.size() > 0) {
+                if (product.skus.get(0).name.length() > 0) {
+                    skuName.setText(product.skus.get(0).name);
+                } else {
+                    skuName.setText(product.name);
+                }
+            }
+
+            if (product.skus.size() > 1) {
+                SkuListAdapter sla = new SkuListAdapter(this, product.skus);
+                skuListView.setAdapter(sla);
+
+                llSelectedSku.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        llSelectedSku.setVisibility(View.GONE);
+                        skuListView.setVisibility(View.VISIBLE);
+                    }
+                });
+            } else {
+                ImageView arrowDown = (ImageView) slis.findViewById(R.id.sku_arrow_down);
+                arrowDown.setVisibility(View.GONE);
+            }
+
+            skuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    skuListView.setVisibility(View.GONE);
+                    llSelectedSku.setVisibility(View.VISIBLE);
+                }
+            });
+
+
+            skuListView.setVisibility(View.GONE);
+
 
             viewLoaded = true;
 
