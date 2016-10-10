@@ -116,6 +116,13 @@ public class ActivityProduct extends BaseActivity {
             LinearLayout slis = (LinearLayout) getLayoutInflater().inflate(R.layout.sku_list_item_selected, null);
             llSelectedSku.addView(slis);
 
+            ViewGroup.LayoutParams params = slis.getLayoutParams();
+            if (params != null) {
+                params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                slis.setLayoutParams(params);
+            }
+
             DefaultTextView skuName = (DefaultTextView) llSelectedSku.findViewById(R.id.sku_name);
             if (product.skus.size() > 0) {
                 if (product.skus.get(0).name.length() > 0) {
