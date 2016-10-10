@@ -83,6 +83,13 @@ tools:openDrawer="start">
                             android:paddingBottom="10dp">
 
                         </LinearLayout>
+
+
+                        <ListView
+                            android:id="@+id/sku_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                        </ListView>
                     </LinearLayout>
 
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    >
+
+    <com.firebox.androidapp.util.DefaultTextView
+        android:id="@+id/sku_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Sku #1" />
+
+    <com.firebox.androidapp.util.DefaultTextView
+        android:id="@+id/sku_stock_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="10dp"
+        android:textColor="@color/green"
+        android:text="In stock" />
+
+    <com.firebox.androidapp.util.DefaultTextView
+        android:id="@+id/sku_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="£0.00" />
+
+</LinearLayout>

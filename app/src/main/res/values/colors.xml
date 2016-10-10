@@ -6,7 +6,13 @@
     <color name="defaultBackground">#efefef</color>
     <color name="navigationBarColor">#2B2B2B</color>
 
+    <!-- background nav header -->
     <color name="tone1">#343434</color>
     <color name="tone2">#363636</color>
     <color name="tone3">#393939</color>
+
+    <!-- in stock / preorder label -->
+    <color name="green">#0BA160</color>
+    <color name="orange">#F37D40</color>
+
 </resources>

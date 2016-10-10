@@ -44,6 +44,90 @@ public class ProductHelper  {
         this.context = c;
     }
 
+    /*public abstract class FullProductGetter extends AsyncTask<Void, Void, Void> {
+
+        Context context;
+        Integer productId;
+
+        public FullProductGetter(Context c, int productId)
+        {
+            this.context = c;
+            this.productId = productId;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            try {
+
+                String SharedPreferencesProductKey = "product-data".concat(this.productId.toString());
+
+                String jsonData = ExpirableSharedPrederences.getInstance(context).getString(SharedPreferencesProductKey);
+
+                if (jsonData == null) {
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = new Request.Builder()
+                            .url("https://www.firebox.com/product/info/".concat(this.productId.toString()))
+                            .build();
+
+                    Response responses = client.newCall(request).execute();
+                    jsonData = responses.body().string();
+
+                    ExpirableSharedPrederences.getInstance(context).setString(SharedPreferencesProductKey, jsonData, 60 * 5);
+                }
+
+
+                JSONArray productsList = new JSONArray(jsonData);
+
+                ArrayList<ProductBlock> tmpProductList = new ArrayList<ProductBlock>();
+
+                for (int i = 0; i < productsList.length(); i++) {
+                    JSONObject productObject = productsList.getJSONObject(i);
+
+                    //This 9999 is one of the most stupid thing I've ever done.
+                    Integer chartPosition = productObject.optInt("chartPosition", 9999);
+
+                    Integer productId = productObject.getInt("id");
+                    Integer birthday = productObject.getInt("liveOnSiteToBuyAt");
+
+                    ArrayList<Integer> tags = new ArrayList<Integer>();
+
+                    for (int o = 0; o < productObject.getJSONArray("tags").length(); o++) {
+                        tags.add(productObject.getJSONArray("tags").getInt(o));
+                    }
+
+                    String imageUrl = "https:".concat(productObject.getString("image"));
+                    tmpProductList.add(new ProductBlock(
+                            productId,
+                            productObject.getString("name"),
+                            imageUrl,
+                            chartPosition,
+                            birthday,
+                            tags));
+
+                }
+
+                tmpProductList = filterProductBlock(tmpProductList);
+
+                productArray = sortProductBlock(tmpProductList);
+
+            } catch (JSONException | IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        public abstract void receiveData(ArrayList<ProductBlock> productBlocks);
+
+        @Override
+        protected void onPostExecute(Void voids)
+        {
+            receiveData(productArray);
+        }
+
+    }*/
+
     public abstract class ProductGetter extends AsyncTask<Void, Void, Void> {
 
         Context context;
@@ -143,6 +227,7 @@ public class ProductHelper  {
                             chartPosition,
                             birthday,
                             tags));
+
                 }
 
                 tmpProductList = filterProductBlock(tmpProductList);

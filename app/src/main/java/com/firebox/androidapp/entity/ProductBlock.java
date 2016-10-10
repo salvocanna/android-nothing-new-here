@@ -11,11 +11,12 @@ public class ProductBlock {
     public ArrayList<Integer> tags;
 
     public ProductBlock(int id, String name, String imageUrl, Integer chartPosition, Integer birthday, ArrayList<Integer> tags) {
-        this.id       = id;
-        this.name     = name;
+        this.id = id;
+        this.name = name;
         this.imageUrl = imageUrl;
         this.chartPosition = chartPosition;
         this.birthday = birthday;
         this.tags = tags;
     }
+
 }

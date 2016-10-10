@@ -9,12 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.firebox.androidapp.BaseActivity;
 import com.firebox.androidapp.R;
+import com.firebox.androidapp.adapter.SkuListAdapter;
 import com.firebox.androidapp.entity.FullProduct;
+import com.firebox.androidapp.entity.ProductSku;
 import com.firebox.androidapp.util.DefaultTextView;
 import com.firebox.androidapp.util.StrongTextView;
 import com.squareup.picasso.Callback;
@@ -65,11 +68,11 @@ public class ActivityProduct extends BaseActivity {
     {
         if (loadedMainImage && loadedInfo && !viewLoaded) {
 
-            if (product.images.size() > 0) {
+            if (product.imagesUrl.size() > 0) {
             ImageView imageView = (ImageView) findViewById(R.id.product_main_image);
             Picasso
                 .with(this)
-                .load(product.images.get(0))
+                .load(product.imagesUrl.get(0))
                 .into(imageView);
             }
 
@@ -105,6 +108,12 @@ public class ActivityProduct extends BaseActivity {
                 keyFeatures.addView(ll);
 
             }
+
+            ListView skuListView = (ListView) findViewById(R.id.sku_list);
+
+            SkuListAdapter sla = new SkuListAdapter(this, product.skus);
+            skuListView.setAdapter(sla);
+
             viewLoaded = true;
 
         }
@@ -128,7 +137,7 @@ public class ActivityProduct extends BaseActivity {
         @Override
         protected Void doInBackground(Void... Void) {
 
-            product = new FullProduct();
+            product = new FullProduct(productId);
 
             try {
                 String preferencesProductInfoKey = "product-info-".concat(productId.toString());
@@ -155,6 +164,7 @@ public class ActivityProduct extends BaseActivity {
                 product.subtitle    = productObject.getString("tagline");
                 JSONArray JSONKeyFeatures = productObject.getJSONArray("keyFeatures");
                 JSONArray JSONImages = productObject.getJSONArray("images");
+                JSONArray JSONSkus = productObject.getJSONArray("skus");
 
                 ArrayList<String> ArrayKeyFeatures = new ArrayList<>();
                 for (int i = 0; i < JSONKeyFeatures.length(); i++) {
@@ -166,9 +176,48 @@ public class ActivityProduct extends BaseActivity {
                     ArrayImages.add("https:".concat(JSONImages.getJSONObject(i).getString("mainUrl")));
                 }
 
+                for (int i = 0; i < JSONSkus.length(); i++) {
+                    JSONObject jo = JSONSkus.getJSONObject(i);
+                    ProductSku s = new ProductSku();
+                    s.id = jo.getInt("id");
+                    s.name = jo.getString("name");
+                    s.stockStatus = jo.getInt("stockStatus");
+                    s.price = jo.getJSONArray("price").getDouble(0);
+                    product.addSku(s);
+                }
+
+                /*{
+                    "id": 17127,
+                    "name": "",
+                    "stockStatus": 1,
+                    "dateDue": "",
+                    "stockNotifyMessage": "Notify me when back in stock",
+                    "price": [
+                        6.99,
+                        9.09,
+                        8.29
+                    ],
+                    "secondarySku": 0,
+                    "sortOrder": 0,
+                    "onPromotion": false,
+                    "promotion": null,
+                    "priceBeforePromotion": [
+                        6.99,
+                        9.09,
+                        8.29
+                    ],
+                    "promotionPercentage": 0,
+                    "isTooExpensiveToPurchase": false,
+                    "isAprilFools": false
+                }*/
+
+
+
                 for (String feature: ArrayKeyFeatures) {
                     product.keyFeatures.add(feature);
                 }
+
+
 
                 // Preload all the images!
                 for (String imageUrl: ArrayImages) {
@@ -192,12 +241,10 @@ public class ActivityProduct extends BaseActivity {
                                 //
                             }
                         });
-                    product.images.add(imageUrl);
+                    product.imagesUrl.add(imageUrl);
                 }
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (JSONException | IOException e) {
                 e.printStackTrace();
             }
 

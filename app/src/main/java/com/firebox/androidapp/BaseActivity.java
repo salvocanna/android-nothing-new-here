@@ -108,6 +108,21 @@ public class BaseActivity extends AppCompatActivity
         }*/
 
     }
+
+    public Boolean addSku(int skuId)
+    {
+
+
+        return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.initDrawer();
+
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
