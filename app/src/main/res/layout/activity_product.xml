@@ -84,12 +84,17 @@ tools:openDrawer="start">
 
                         </LinearLayout>
 
+                        <LinearLayout
+                            android:id="@+id/selected_sku"
+                            android:layout_width="match_parent"
+                            android:background="@drawable/sku_selected_box"
+                            android:layout_height="wrap_content" />
 
-                        <ListView
+                        <com.firebox.androidapp.util.ExpandedListView
                             android:id="@+id/sku_list"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                        </ListView>
+                            android:background="@drawable/sku_selected_box"
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
 

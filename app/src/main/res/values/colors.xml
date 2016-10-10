@@ -15,4 +15,7 @@
     <color name="green">#0BA160</color>
     <color name="orange">#F37D40</color>
 
+    <!-- sku list -->
+    <color name="lightGray1">#EFEFEF</color>
+    <color name="lightGray2">#f2f2f2</color> <!-- darker -->
 </resources>
