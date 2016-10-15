@@ -10,14 +10,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:padding="10dp"
+        android:paddingLeft="10dp"
+        android:paddingBottom="7dp"
+        android:paddingTop="7dp"
+        android:layout_gravity="center"
         android:textSize="15dp"
         android:text="Sku #1" />
 
     <com.firebox.androidapp.util.DefaultTextView
+        android:id="@+id/sku_stock_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingRight="10dp"
+        android:padding="7dp"
+        android:layout_gravity="center"
         android:textColor="@color/green"
         android:text="In stock" />
 
@@ -26,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="10dp"
+        android:padding="7dp"
         android:src="@drawable/ic_arrow_down"
         />
 

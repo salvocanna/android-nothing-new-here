@@ -5,9 +5,17 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -45,6 +53,12 @@ public class ActivityProduct extends BaseActivity {
     private Boolean loadedInfo = false;
     private Boolean viewLoaded = false;
 
+    private ViewPager pager;
+    private ImageSlidePagerAdapter pagerAdapter;
+
+    private ProductSku selectedSku;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +66,24 @@ public class ActivityProduct extends BaseActivity {
 
         Intent myIntent = getIntent(); // gets the previously created intent
         productId = myIntent.getIntExtra("productId", -1);
+
+        pager = (ViewPager) findViewById(R.id.image_pager);
+
+
+        ViewTreeObserver vto = pager.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                pager.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+
+                ViewGroup.LayoutParams pageLP = pager.getLayoutParams();
+                pageLP.height = pager.getMeasuredWidth();
+                pageLP.width  = pager.getMeasuredWidth();
+                pager.setLayoutParams(pageLP);
+            }
+        });
+
+
 
         if (productId > 0) {
             //Display a spinner...
@@ -62,6 +94,7 @@ public class ActivityProduct extends BaseActivity {
 
         }
 
+
         this.initDrawer();
     }
 
@@ -70,11 +103,11 @@ public class ActivityProduct extends BaseActivity {
         if (loadedMainImage && loadedInfo && !viewLoaded) {
 
             if (product.imagesUrl.size() > 0) {
-            ImageView imageView = (ImageView) findViewById(R.id.product_main_image);
-            Picasso
-                .with(this)
-                .load(product.imagesUrl.get(0))
-                .into(imageView);
+
+                pagerAdapter = new ImageSlidePagerAdapter(getSupportFragmentManager());
+                pagerAdapter.setImages(product.imagesUrl);
+                pager.setAdapter(pagerAdapter);
+
             }
 
             StrongTextView title = ((StrongTextView) findViewById(R.id.product_title));
@@ -124,15 +157,9 @@ public class ActivityProduct extends BaseActivity {
             }
 
             DefaultTextView skuName = (DefaultTextView) llSelectedSku.findViewById(R.id.sku_name);
-            if (product.skus.size() > 0) {
-                if (product.skus.get(0).name.length() > 0) {
-                    skuName.setText(product.skus.get(0).name);
-                } else {
-                    skuName.setText(product.name);
-                }
-            }
 
             if (product.skus.size() > 1) {
+                setSelectedSku(product.skus.get(0));
                 SkuListAdapter sla = new SkuListAdapter(this, product.skus);
                 skuListView.setAdapter(sla);
 
@@ -143,14 +170,25 @@ public class ActivityProduct extends BaseActivity {
                         skuListView.setVisibility(View.VISIBLE);
                     }
                 });
+            } else if (product.skus.size() > 0) {
+                setSelectedSku(product.skus.get(0));
+                llSelectedSku.setVisibility(View.GONE);
+                skuListView.setVisibility(View.GONE);
             } else {
-                ImageView arrowDown = (ImageView) slis.findViewById(R.id.sku_arrow_down);
-                arrowDown.setVisibility(View.GONE);
+                llSelectedSku.setVisibility(View.GONE);
+                skuListView.setVisibility(View.GONE);
+
+                Button addToBasket = (Button) findViewById(R.id.add_to_basket);
+                addToBasket.setVisibility(View.GONE);
+                // Disable add-to-basket
             }
+
+
 
             skuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    setSelectedSku(product.skus.get(i));
                     skuListView.setVisibility(View.GONE);
                     llSelectedSku.setVisibility(View.VISIBLE);
                 }
@@ -176,6 +214,18 @@ public class ActivityProduct extends BaseActivity {
                 v.setLayoutParams(params);
             }
         }
+    }
+
+    private void setSelectedSku(ProductSku sku)
+    {
+        final LinearLayout llSelectedSku = (LinearLayout) findViewById(R.id.selected_sku);
+        DefaultTextView skuName = (DefaultTextView) llSelectedSku.findViewById(R.id.sku_name);
+        DefaultTextView skuStock = (DefaultTextView) llSelectedSku.findViewById(R.id.sku_stock_status);
+
+        skuName.setText(sku.name);
+        skuStock.setText(sku.stockStatus==0 ? "Pre-order" : "In stock");
+
+        selectedSku = sku;
     }
 
     private class ProductInfoLoader extends AsyncTask<Void, Void, Void> {
@@ -305,6 +355,56 @@ public class ActivityProduct extends BaseActivity {
         }
 
     }
+
+
+    public  class ImageSlideFragment extends Fragment {
+
+        private String url = "";
+        ImageSlideFragment(String url)
+        {
+            this.url = url;
+
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            ViewGroup rootView = (ViewGroup) inflater.inflate(
+                    R.layout.fragment_image_slide, container, false);
+
+
+            ImageView imageView = (ImageView) rootView.findViewById(R.id.product_main_image);
+            Picasso
+                .with(getApplicationContext())
+                .load(this.url)
+                .into(imageView);
+
+            return rootView;
+        }
+    }
+
+    private class ImageSlidePagerAdapter extends FragmentStatePagerAdapter {
+        ArrayList<String> images = new ArrayList<>();
+
+        public ImageSlidePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+        public void setImages(ArrayList<String> url)
+        {
+            images = url;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return new ImageSlideFragment(images.get(position));
+        }
+
+        @Override
+        public int getCount() {
+            return images.size();
+        }
+    }
+
 
 
 }
