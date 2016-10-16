@@ -139,15 +139,15 @@ public class BaseActivity extends AppCompatActivity
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_main, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.action_search);
+        //MenuItem searchItem = menu.findItem(R.id.action_search);
 
         SearchManager searchManager = (SearchManager) BaseActivity.this.getSystemService(Context.SEARCH_SERVICE);
 
-        SearchView searchView = null;
-        if (searchItem != null) {
-            searchView = (SearchView) searchItem.getActionView();
-        }
-        if (searchView != null) {
+        //SearchView searchView = null;
+        //if (searchItem != null) {
+            //searchView = (SearchView) searchItem.getActionView();
+        //}
+        /*if (searchView != null) {
 
             searchView.setQueryHint("Search: ");
             searchView.setOnQueryTextListener(this);
@@ -156,7 +156,7 @@ public class BaseActivity extends AppCompatActivity
             searchView.setSearchableInfo(searchManager.getSearchableInfo(BaseActivity.this.getComponentName()));
 
             searchView.setOnSuggestionListener(this);
-        }
+        }*/
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -198,7 +198,6 @@ public class BaseActivity extends AppCompatActivity
             categoryIntent.putExtra(ActivityCategory.TAG_ID, 10);
         } else if (id == R.id.login) {
             categoryIntent = new Intent(BaseActivity.this, ActivityLogin.class);
-
         }
 
         BaseActivity.this.startActivity(categoryIntent);
@@ -216,7 +215,7 @@ public class BaseActivity extends AppCompatActivity
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        LinearLayout ll = (LinearLayout) findViewById(R.id.search_layout);
+        /*LinearLayout ll = (LinearLayout) findViewById(R.id.search_layout);
 
         if (newText.length() > 0) {
             ll.setVisibility(View.VISIBLE);
@@ -226,7 +225,7 @@ public class BaseActivity extends AppCompatActivity
         } else {
             ll.setVisibility(View.GONE);
 
-        }
+        }*/
 
         return false;
     }
